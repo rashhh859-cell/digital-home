@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-visual">
+<meta name="theme-color" content="#4a346e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="A cozy pixel-art desktop for my tablet, with Kuro the dog.">
+<title>My Digital Home</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="rotate-hint"><div>🐾<br>Turn your tablet sideways</div></div>
+
+<div id="stage">
+  <!-- Pixel-art room (drawn by script.js) -->
+  <svg id="scene" viewBox="0 0 1280 800" width="1280" height="800" shape-rendering="crispEdges" aria-hidden="true"></svg>
+
+  <header id="topbar">
+    <div class="tb-title"><span>🏠</span><span id="tbTitle">My Digital Home</span><span class="heart">♡</span></div>
+    <div class="sp"></div>
+    <span id="tbNet" title="Internet">📶</span>
+    <span id="tbBat"></span>
+    <span id="tbTime"></span>
+    <button class="tb-fs" id="fsBtn" title="Fullscreen" aria-label="Fullscreen">⛶</button>
+  </header>
+
+  <nav id="sidebar" aria-label="Apps"></nav>
+
+  <!-- Clock -->
+  <section class="w" id="w-clock">
+    <div class="clock-time" id="clockTime">--:--</div>
+    <div class="clock-date"><span id="clockDate"></span> 🐾</div>
+  </section>
+
+  <!-- Planner -->
+  <section class="w" id="w-planner">
+    <div class="w-head">📅 Today's Planner<span class="sp"></span><button class="ib sm" id="plClear" title="Clear finished tasks">🧹</button></div>
+    <ul id="plList" class="pl-list"></ul>
+    <form id="plForm" class="pl-form" autocomplete="off">
+      <input id="plInput" maxlength="60" placeholder="Add a task…" enterkeyhint="done">
+      <button class="btn sm" type="submit" aria-label="Add task">＋</button>
+    </form>
+  </section>
+
+  <!-- Weather -->
+  <section class="w" id="w-weather">
+    <div class="w-head"><span id="wxPlace">☀️ Weather</span><span class="sp"></span><button class="ib sm" id="wxRefresh" title="Refresh" aria-label="Refresh weather">↻</button></div>
+    <div id="wxBody" class="wx-body"></div>
+  </section>
+
+  <!-- Music -->
+  <section class="w" id="w-music">
+    <div class="w-head">🎵 Music Player<span class="sp"></span><button class="ib sm" id="muList" title="Playlist" aria-label="Playlist">☰</button></div>
+    <div class="mu-top">
+      <div class="mu-art"><span class="mu-moon"></span><span class="mu-s s1"></span><span class="mu-s s2"></span><span class="mu-s s3"></span></div>
+      <div class="mu-meta">
+        <div id="muTitle" class="mu-title">—</div>
+        <div id="muArtist" class="mu-artist"></div>
+        <div class="mu-prog"><i id="muProg"></i></div>
+      </div>
+    </div>
+    <div class="mu-ctl">
+      <button class="mu-b" id="muPrev" aria-label="Previous">◀◀</button>
+      <button class="mu-b play" id="muPlay" aria-label="Play">▶</button>
+      <button class="mu-b" id="muNext" aria-label="Next">▶▶</button>
+    </div>
+    <div class="mu-vol"><span>🔈</span><input type="range" id="muVol" min="0" max="100" aria-label="Volume"><span>🔊</span></div>
+  </section>
+
+  <!-- Kuro -->
+  <section class="w" id="w-kuro">
+    <div class="w-head">🐾 Kuro's Corner<span class="sp"></span><span class="lv" id="kLv">Lv. 1</span></div>
+    <div class="k-body">
+      <div class="k-pic" id="kPic" role="button" aria-label="Pet Kuro"></div>
+      <div class="k-side">
+        <div class="k-say" id="kSay">Woof!</div>
+        <div class="stat" title="Happiness"><span>❤️</span><div class="bar pink"><i id="kHappy"></i></div></div>
+        <div class="stat" title="Energy"><span>⚡</span><div class="bar yel"><i id="kEnergy"></i></div></div>
+        <div class="stat" title="Tummy"><span>🍖</span><div class="bar mint"><i id="kFull"></i></div></div>
+      </div>
+    </div>
+    <div class="k-btns">
+      <button class="btn yel" data-pet="feed">🍖 Feed</button>
+      <button class="btn mint" data-pet="play">🎾 Play</button>
+      <button class="btn pink" data-pet="pet">♡ Pet</button>
+    </div>
+  </section>
+
+  <!-- Garden -->
+  <section class="w" id="w-garden">
+    <div class="w-head">🌱 Garden<span class="sp"></span><button class="ib sm" id="gHelp" aria-label="Garden help">?</button></div>
+    <div class="g-body">
+      <div class="g-pots" id="gPots"></div>
+      <button class="g-water" id="gWater"><span>💧</span>Water</button>
+    </div>
+  </section>
+
+  <!-- Quick tools -->
+  <section class="w" id="w-tools">
+    <div class="w-head">⭐ Quick Tools</div>
+    <div class="qt" id="qt"></div>
+  </section>
+
+  <!-- Notes -->
+  <section class="w" id="w-notes">
+    <div class="tape"></div>
+    <div class="n-head">
+      <button class="ib sm" id="nPrev" aria-label="Previous note">‹</button>
+      <span id="nCount">1/1</span>
+      <button class="ib sm" id="nNext" aria-label="Next note">›</button>
+      <span class="sp"></span>
+      <button class="ib sm" id="nAdd" aria-label="New note">＋</button>
+      <button class="ib sm" id="nDel" aria-label="Delete note">🗑</button>
+    </div>
+    <textarea id="nText" placeholder="Write something…" maxlength="2000"></textarea>
+    <div class="n-foot" id="nFoot">✓ saved</div>
+  </section>
+
+  <!-- Pop-up sheet for apps (Library, Settings, Calculator…) -->
+  <div id="overlay" hidden>
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-head"><h2 id="sheetTitle"></h2><span class="sp"></span><button class="ib big" id="sheetClose" aria-label="Close">✕</button></div>
+      <div id="sheetBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" role="status"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
